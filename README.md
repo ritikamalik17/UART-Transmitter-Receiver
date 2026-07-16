@@ -32,8 +32,9 @@ The transmitter converts 8-bit parallel data into serial data.
 - FSM-based transmitter design (IDLE → START → DATA → STOP)
 - Fully simulated and verified with a self-checking testbench
 
-- 
+
 ## Architecture
+
 - `baud_generator.v` — generates a single-cycle `tick` pulse at the
   target baud rate by dividing down the system clock
 - `uart_tx.v` — FSM that shifts out a byte on `tx`, synchronized to `tick`
