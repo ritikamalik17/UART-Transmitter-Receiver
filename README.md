@@ -90,7 +90,8 @@ Simulated transmission of byte `0xA5` at 9600 baud (50MHz system clock,
 divisor = 5208). Waveform confirms correct start bit, LSB-first data bits,
 and stop bit timing; `tx_done` pulses exactly once per frame.
 
-![Waveform](waveforms/tx_waveform.png)
+<img width="1536" height="416" alt="image" src="https://github.com/user-attachments/assets/425e6bf1-49b4-4caf-bdb0-aa381846c754" />
+
 
 ## Debugging notes
 Found and fixed a level-sensitive vs. edge-sensitive bug during testbench
