@@ -24,26 +24,41 @@ uart_tx uut (
     .tx_done(tx_done)
 );
 
-// Clock Generation (100 MHz)
+// 100 MHz Clock (10 ns period)
 always #5 clk = ~clk;
 
-// Tick Generation (for simulation only)
-always #20 tick = ~tick;
 
-// Test Sequence
-initial
-begin
+// Baud tick generation (simulation only)
+// Generates a tick every 20 ns
+always begin
+    #20;
+    tick = 1;
+    #10;
+    tick = 0;
+end
+
+
+// Test sequence
+initial begin
+
+    // Waveform file
+    $dumpfile("uart_tx.vcd");
+    $dumpvars(0, uart_tx_tb);
+
+    // Initial values
     clk = 0;
     reset = 1;
     tick = 0;
     tx_start = 0;
     data_in = 8'h00;
 
-    // Hold reset
+
+    // Reset
     #20;
     reset = 0;
 
-    // Send one byte
+
+    // Transmit byte A5
     #20;
     data_in = 8'hA5;
     tx_start = 1;
@@ -51,10 +66,22 @@ begin
     #10;
     tx_start = 0;
 
-    // Wait long enough for transmission
-    #500;
 
+    // Wait for transmission
+    wait(tx_done);
+
+    #50;
+
+    $display("UART Transmission Completed");
     $finish;
+
+end
+
+
+// Monitor signals
+initial begin
+    $monitor("Time=%0t | tx=%b | tx_done=%b | data=%h",
+              $time, tx, tx_done, data_in);
 end
 
 endmodule
